@@ -1,0 +1,145 @@
+/* Navbar height reduction */
+.navbar-fluid {
+    padding: 0.5rem 1rem;
+  }
+  
+  .logo-img {
+    height: 2.5rem;
+    width: 2.5rem;
+    transition: transform 0.3s ease-in-out; 
+  }
+  
+  .logo-img:hover {
+    transform: scale(1.1); 
+  }
+  
+
+.brand-text {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2563eb; 
+  transition: color 0.3s ease-in-out; 
+}
+
+.brand-text:hover {
+  color: #1e40af; 
+  transition: color 0.3s ease-in-out; 
+}
+
+  
+  .auth-buttons .login-button {
+    background-color: transparent;
+    color: #1e3a8a; /* Initial blue color */
+    font-size: 1rem; /* Smaller text */
+    font-weight: 500;
+    padding: 0.5rem 1rem; /* Reduced padding */
+    border: 2px solid #1e3a8a; /* Blue border */
+    border-radius: 10px; /* Slightly reduced curve */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Add smooth hover effect */
+  }
+  
+  .auth-buttons .login-button:hover {
+    background-color: #1e3a8a; /* Blue background on hover */
+    color: white; /* White text color on hover */
+    border-color: #1e3a8a; /* Blue border on hover */
+  }
+  
+  /* Signup button styling with reduced size and less curved edges */
+  .auth-buttons .signup-button {
+    background-color: transparent;
+    color: #10b981; /* Initial green color */
+    font-size: 1rem; /* Smaller text */
+    font-weight: 500;
+    padding: 0.5rem 1rem; /* Reduced padding */
+    border: 2px solid #10b981; /* Green border */
+    border-radius: 10px; /* Slightly reduced curve */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Add smooth hover effect */
+  }
+  
+  .auth-buttons .signup-button:hover {
+    background-color: #10b981; /* Green background on hover */
+    color: white; /* White text color on hover */
+    border-color: #10b981; /* Green border on hover */
+  }
+  
+  /* Adjust the avatar (user image) size and make it round */
+  .avatar img {
+    border-radius: 50%; /* Make the image round */
+    transition: transform 0.3s ease; /* Add smooth scaling effect */
+  }
+  
+  .avatar img:hover {
+    transform: scale(1.1); /* Slight scale-up on hover */
+  }
+  
+
+
+.login-button,
+.signup-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+
+
+  .login-button,
+  .signup-button {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .flex.items-center.space-x-4 {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .login-button,
+  .signup-button {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+.admin-nav-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* Increased spacing between links */
+}
+
+.admin-nav-link {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease-in-out;
+}
+
+.admin-nav-link:hover {
+  color: #1e40af; /* Darker blue on hover */
+}
+
+.admin-nav-link::after {
+  content: attr(data-name); /* Show the link name */
+  position: absolute;
+  left: 50%;
+  bottom: -28px; /* Increased gap between icon and text */
+  transform: translateX(-50%);
+  background-color: transparent;
+  color: #1e40af; /* Blue text */
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.admin-nav-link:hover::after {
+  opacity: 1;
+}
+

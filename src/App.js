@@ -1,0 +1,850 @@
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import AppNavBar from "./components/AppNavBar";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import ForgotPassword from "./pages/ForgotPassword";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
+import Sidebar from "./pages/Sidebar";
+import UserDashboard from "./pages/UserDashboard";
+import { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+import CreateProject from "./pages/CreateProject";
+import CreateTestCases from "./pages/CreateTestCases";
+import TestSuite from "./pages/TestSuite";
+import CreateTestSuite from "./pages/CreateTestSuite";
+import DashBoard from "./pages/DashBoard";
+import PrivateRoute from "./pages/PrivateRoute";
+import ProjectDetails from "./pages/ProjectDetails";
+import ProjectMembers from "./pages/ProjectMembers";
+import TestCasePriorities from "./pages/TestCasePriorities";
+import TestCases from "./pages/TestCases";
+import Requirement from "./pages/Requirement";
+import RequirementTypes from "./pages/RequirementTypes";
+import TestcasesTypes from "./pages/TestcasesTypes"
+import TestSuites from "./pages/TestSuites";
+import RequirementDetails from "./pages/RequirementDetails";
+import AdminLogin from "./Admin/AdminLogin";
+import AdminDashboard from "./Admin/AdminDashboard";
+import AdminUsers from "./Admin/AdminUsers";
+import AdminProjects from "./Admin/AdminProjects"
+import AdminTestCases from "./Admin/AdminTestCases";
+import AdminRequirements from "./Admin/AdminRequirements";
+import AdminTestSuite from "./Admin/AdminTestSuite";
+import ProjectList from "./pages/ProjectList";
+import TestData from "./pages/TestData";
+import MemberRegister from "./Members/MemberRegister";
+import ProjectListDetails from "./pages/ProjectListDetails";
+import UserRoles from "./pages/UserRoles";
+import AdminOrganization from "./Admin/AdminOrganization";
+import { useLocation } from 'react-router-dom';
+import MemberDashBoard from "./Members/MemberDashBoard";
+import AdminSetting from "./Admin/AdminSetting";
+import MemberProjects from "./Members/MemberProjects";
+import MemberProjectDetails from "./Members/MemberProjectDetails";
+import MemberProfile from "./Members/MemberProfile";
+import MemberTestDetails from "./Members/MemberTestDetails";
+import MemberTestCases from "./Members/MemberTestCases";
+import MemberWriteTest from "./Members/MemberWriteTest";
+import MemberTestStep from "./Members/MemberTestStep";
+import AdminProjectDetails from "./Admin/AdminProjectDetails";
+import AdminLayout from "./Admin/AdminLayout";
+import MemberTestData from "./Members/MemberTestData";
+import TestEnvironmentConfig from "./pages/TestEnvironmentModal";
+import MemberTestSuites from "./Members/MemberTestSuites";
+import MemberRequirement from "./Members/MemberRequirement";
+import MemberTestType from "./Members/MemberTestType";
+import MemberRequirementType from "./Members/MemberRequirementType";
+import MemberPriorities from "./Members/MemberPriorities"
+import TestAutomationControl from "./pages/TestExecution";
+import Agent from "./pages/Agent";
+import Reports from "./pages/Reports";
+import GitHub from "./pages/GitHub";
+import MemberGithub from "./Members/MemberGithub";
+import MemberRecord from "./Members/MemberRecord";
+import MemberSuiteDetails from "./Members/MemberSuiteDetails";
+import MemberCreateSuite from "./Members/MemberCreateSuite";
+import RecordSelector from "./Android/RecordSelector";
+import ManuallySelector from "./Android/ManuallySelector";
+import DesktopPrompt from "./pages/DesktopPrompt";
+import TestSenario from "./pages/TestSenario";
+import MobilePrompt from "./Android/MobilePrompt";
+import AndroidPrompt from "./Android/AndroidPrompt";
+import AndroidSenario from "./Android/AndroidSenario";
+import TestScript from "./pages/TestScript";
+
+import { AutomationProvider } from './pages/AutomationContext';
+import FloatingAutomationWidget from './pages/FloatingAutomationWidget';
+import { TestExecutionProvider } from './pages/TestExecutionContext';
+import FloatingTestExecutionWidget from './pages/FloatingTestExecutionWidget';
+import FloatingTestSuiteWidget from "./pages/FloatingTestSuiteWidget";
+import { AiChatProvider } from './pages/AiChatContext';
+import FloatingAiChatWidget from './pages/FloatingAiChatWidget';
+import AiChat from "./pages/AiChat";
+
+// import { MdDashboard } from "react-icons/md";
+// import { FaUserCircle } from "react-icons/fa";
+// import { RiLogoutBoxLine } from "react-icons/ri";
+// import Dropdown from "./pages/Dropdown";
+
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+    const storedName = localStorage.getItem("name");
+    const storedEmail = localStorage.getItem("email");
+    const sessionActive = sessionStorage.getItem("sessionActive");
+
+    if (storedIsLoggedIn === "true" && sessionActive !== "true") {
+      handleLogout();
+    } else if (storedIsLoggedIn === "true") {
+      setIsLoggedIn(true);
+      setName(storedName);
+      setEmail(storedEmail);
+      sessionStorage.setItem("sessionActive", "true");
+    }
+
+    const handleStorageChange = (event) => {
+      if (event.key === "isLoggedIn" && event.newValue !== "true") {
+        handleLogout(); 
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      localStorage.removeItem(`selectedProject_${userId}`);
+    }
+    localStorage.removeItem("userId");
+
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    sessionStorage.removeItem("sessionActive");
+    localStorage.removeItem("projects");
+
+    setIsLoggedIn(false);
+    setName("");
+    setEmail("");
+
+  };
+
+  console.log("localStorage after logout:", localStorage);
+  console.log("sessionStorage after logout:", sessionStorage);
+
+  
+  const MainContent = () => {
+    const location = useLocation();
+    const isAdminRoute = location.pathname.includes('admin');
+    const isMemberRoute = location.pathname.includes('member-');
+
+  return (
+
+    <div className="h-full flex flex-col" style={{ paddingTop: "64px" }}>
+        {/* Only show sidebar if logged in AND not on admin routes */}
+        {isLoggedIn && !isAdminRoute && !isMemberRoute && (
+          <div>
+            <Sidebar
+              isOpen={isSidebarOpen}
+              toggleSidebar={toggleSidebar}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+              setName={setName}
+              setEmail={setEmail}
+              onLogout={handleLogout}
+              className='w-64 md:w-48 h-full md:h-64'
+            />
+          </div>
+        )}
+
+        {/* Content Area */}
+        <div
+          className={`transition-all duration-300 ease-in-out flex-grow ${
+            isSidebarOpen && isLoggedIn && !isAdminRoute ? "ml-64" : "ml-0"
+          }`}
+        >
+            <Routes>
+              <Route
+                path="dashboard"
+                exact
+                element={
+                  <Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+                }
+              />
+              <Route
+                path="/adminlogin"
+                exact
+                element={
+                  <AdminLogin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+                }
+              />
+              <Route
+                path="/admin-dashboard"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <AdminDashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin-project-details"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <AdminLayout>
+                      <AdminProjectDetails />
+                    </AdminLayout>
+                  </PrivateRoute>
+                }
+              />
+              <Route 
+                path="/admin-organization"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <AdminLayout>
+                      <AdminOrganization/>
+                    </AdminLayout>
+                  </PrivateRoute>
+                }
+                />
+                <Route
+                  path="/admin-setting"
+                  exact
+                  element={
+                    <PrivateRoute  isLoggedIn={isLoggedIn}>
+                      <AdminSetting/>
+                    </PrivateRoute>
+                  }
+                  />
+              <Route
+                path="/admin-users"
+                exact
+                element={
+                  <PrivateRoute  isLoggedIn={isLoggedIn}>
+                    <AdminUsers />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin-projects"
+                exact
+                element={
+                  <PrivateRoute  isLoggedIn={isLoggedIn}>
+                    <AdminProjects />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin-testcases"
+                exact
+                element={
+                  <PrivateRoute  isLoggedIn={isLoggedIn}>
+                    <AdminTestCases />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin-requirements"
+                exact
+                element={
+                  <PrivateRoute  isLoggedIn={isLoggedIn}>
+                    <AdminRequirements />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin-testsuites"
+                exact
+                element={
+                  <PrivateRoute  isLoggedIn={isLoggedIn}>
+                    <AdminTestSuite />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="dashboard/register"
+                exact
+                element={
+                  <Register
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                    setName={setName}
+                    setEmail={setEmail}
+                  />
+                }
+              />
+              <Route
+                path="member-register/:token"
+                exact
+                element={
+                  <MemberRegister
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                    setName={setName}
+                    setEmail={setEmail}
+                  />
+                }
+              />
+              <Route
+                path="dashboard/login"
+                exact
+                element={
+                  <Login
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                    setName={setName}
+                    setEmail={setEmail}
+                  />
+                }
+              />
+              <Route
+                path="forgotPassword"
+                exact
+                element={<ForgotPassword isLoggedIn={isLoggedIn} />}
+              />
+              <Route
+                path="resetPassword/:token"
+                element={<ResetPassword isLoggedIn={isLoggedIn} />}
+              />
+              <Route
+                path="profile"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <Profile name={name} email={email} />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="agent"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <Agent name={name} email={email} />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/"
+                exact
+                element={
+                  <DashBoard
+                    isLoggedIn={isLoggedIn}
+                    name={name}
+                    email={email}
+                  />
+                }
+              />
+              <Route
+                path="dashboard-user"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <UserDashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-dashboard"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberDashBoard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-projects"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberProjects />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-project-details"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberProjectDetails />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-profile"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberProfile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-test-details"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberTestDetails />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-create-testcase"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberTestCases />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-record"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberRecord />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-suite-details"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberSuiteDetails />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-create-suite"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberCreateSuite />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-write-testcase"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberWriteTest />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-test-cases/:testCaseId/steps"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberTestStep />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-test-data"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberTestData />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-test-suite"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberTestSuites />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-test-requirement"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberRequirement />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-test-types"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberTestType />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-requirement-types"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberRequirementType />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-prorities"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberPriorities />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/member-github"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberGithub />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="create-project"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <CreateProject  />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="test-cases/create-testcases"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <CreateTestCases />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="write-manually"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <RecordSelector />
+                  </PrivateRoute>
+                }
+              />
+              {/* <Route
+                path="/writemanually-test"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <WriteManually />
+                  </PrivateRoute>
+                }
+              /> */}
+              <Route
+                path="testsuite"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <TestSuite />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="reports"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <Reports />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="test-data"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <TestData />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/test-suites/create-testsuite"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <CreateTestSuite />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="project-details"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <ProjectDetails />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="projects-list"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <ProjectList />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/project-details/project-list-details"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <ProjectListDetails />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="project-members"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <ProjectMembers />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="test-cases"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <TestCases />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/test-cases/:testCaseId/script"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <TestScript />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="ai-chat"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <AiChat />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="testcase-Priorities"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <TestCasePriorities />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="create-requirement"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <Requirement />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="android-scenario"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <AndroidSenario />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="test-scenario"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <TestSenario />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="prompt-adding"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <DesktopPrompt />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="android-prompt"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <AndroidPrompt />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="mobile-prompt"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MobilePrompt />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="gitwritemanually-test"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <ManuallySelector />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="github"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <GitHub />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="requirement-type"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <RequirementTypes />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="testcases-type"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <TestcasesTypes />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="test-suites"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <TestSuites />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="requirement-details"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <RequirementDetails />
+                  </PrivateRoute>
+                }
+              />
+              <Route 
+                path="user-roles"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <UserRoles/>
+                  </PrivateRoute>
+                }
+                />
+                <Route
+                path="/environment-run"
+                exact
+                element={ 
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <TestEnvironmentConfig />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/run"
+                exact
+                element={ 
+                  <TestAutomationControl />
+                }
+              />
+            </Routes>
+          </div>
+    </div>
+  );
+};
+
+
+return (
+  <div className="bg-purple-100">
+    <BrowserRouter>
+    {/* ✅ WRAP EVERYTHING WITH AutomationProvider & AiChatProvider */}
+      <AutomationProvider>
+        <TestExecutionProvider>
+          <AiChatProvider>
+            <ToastContainer />
+            <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
+              <AppNavBar
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                name={name}
+                setName={setName}
+                email={email}
+                setEmail={setEmail}
+              />
+            </div>
+            <MainContent />
+            {/* ✅ FLOATING WIDGETS - They don't conflict */}
+            <FloatingAutomationWidget />
+            <FloatingTestExecutionWidget />
+            <FloatingTestSuiteWidget />
+            <FloatingAiChatWidget />
+          </AiChatProvider>
+        </TestExecutionProvider>
+      </AutomationProvider>
+    </BrowserRouter>
+  </div>
+);
+};
+
+export default App;

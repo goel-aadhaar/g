@@ -1,0 +1,245 @@
+.write-manually-page {
+  flex-grow: 1;
+  position: relative;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.write-manually-page-wrapper {
+  max-width: 800px;
+  width: 100%;
+  border-radius: 12px;
+  padding: 25px;
+  position: relative;
+}
+.create-test-cases-button-top-right {
+  position: absolute;
+  top: 20px;
+  right: 150px;
+  display: flex;
+  gap: 10px;
+}
+
+.wm-cancel-btn {
+  color: rgb(126, 58, 242);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px; 
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.wm-cancel-btn:hover {
+  background-color: rgb(126, 58, 242);
+  color: white;
+}
+
+.wm-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  width: 100%;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.wm-title {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 20px;
+  animation: slideInDown 1s ease-out;
+}
+
+.wm-error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.wm-step {
+  margin-bottom: 20px;
+}
+
+.wm-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(126, 58, 242);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.wm-required {
+  color: red;
+}
+
+.wm-input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.wm-input:focus {
+  outline: none;
+  border-color: rgb(126, 58, 242);
+  box-shadow: 0 0 5px rgba(126, 58, 242, 0.5);
+}
+
+.wm-review {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.wm-review p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  word-break: break-word;
+  gap: 10px; 
+  overflow-wrap: break-word;
+}
+
+.wm-review span {
+  font-weight: bold;
+  white-space: nowrap; 
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 70%; 
+  display: inline-block;
+}
+
+
+.wm-edit-btn {
+  background: transparent;
+  color: rgb(126, 58, 242);
+  border: 1px solid rgb(126, 58, 242);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.wm-edit-btn:hover {
+  background-color: rgb(126, 58, 242);
+  color: white;
+}
+
+.wm-next-btn,
+.wm-save-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  color: white;
+  background-color: rgb(126, 58, 242);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wm-next-btn:disabled,
+.wm-save-btn:disabled {
+  background-color: #d1c4e9;
+  cursor: not-allowed;
+}
+
+.wm-next-btn:hover,
+.wm-save-btn:hover {
+  background-color: #6a3ac8;
+}
+
+.wm-input {
+  width: 100%;
+  font-size: 14px;
+}
+
+.wm-next-btn,
+.wm-save-btn {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.cancel-btn {
+  padding: 8px 15px;
+  font-size: 14px;
+}
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+@media (max-width: 480px) {
+
+  .write-manually-page-wrapper{
+    padding: 15px;
+    max-width: 100%;
+  }
+  .write-manually-page{
+    margin: auto;
+    padding: 10px;
+    width: 320px;
+  }
+
+  .create-test-cases-title{
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+  .project-name{
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .wm-review p {
+    flex-direction: column; /* Stack text and button vertically */
+    align-items: flex-start;
+  }
+
+  .wm-review span {
+    max-width: 100%; /* Allow full-width for small screens */
+  }
+
+  .wm-edit-btn {
+    margin-top: 5px; /* Add margin for better spacing */
+  }
+}
+
+@media (max-width: 480px) {
+  .wm-container {
+    padding: 20px;
+    max-width: 95%; /* Adjust container width */
+  }
+
+  .write-manually-page {
+    padding: 10px;
+  }
+}

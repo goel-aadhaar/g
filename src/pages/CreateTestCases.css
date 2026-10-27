@@ -1,0 +1,314 @@
+.create-test-cases-page-container {
+  flex-grow: 1;
+  position: relative;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.create-test-cases-wrapper {
+  /* max-width: 800px; */
+  width: 100%;
+  border-radius: 12px;
+  padding: 25px;
+  position: relative;
+}
+
+.create-test-cases-top-right {
+  position: relative;
+  top: 0px;
+  right: 0px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.create-test-cases-title{
+  font-size: 1.8rem;
+  text-align: center;
+  animation: slideInDown 1s ease-out;
+}
+
+.create-test-cases-test-suite-btn {
+  padding: 10px 20px;
+  color: rgb(126, 58, 242);
+  border: none;
+  border-radius: 8px;
+  font-size: 20px; 
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.create-test-cases-test-suite-btn:hover {
+  background-color: rgb(126 58 242 / var(--tw-bg-opacity, 1));
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.create-test-cases-btn-cancel {
+  color: rgb(126, 58, 242);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px; 
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.create-test-cases-btn-cancel:hover {
+  background-color: rgb(126, 58, 242);
+  color: white;
+}
+
+.create-test-cases-container {
+  background: linear-gradient(135deg, #ffffff, #f9f9f9);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+}
+
+.create-test-cases-input-container {
+  margin-bottom: 20px;
+}
+
+.create-test-cases-input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 14px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+.create-test-cases-input:focus {
+  border-color: rgb(126, 58, 242);
+  outline: none;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+.create-test-cases-button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.create-test-cases-btn-manual {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px; 
+  cursor: pointer;
+}
+
+.create-test-cases-btn-manual:hover {
+  background-color: rgb(126 58 242 / var(--tw-bg-opacity, 1));
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.create-test-cases-btn-create {
+  background-color: rgb(126, 58, 242);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px; 
+  cursor: pointer;
+}
+
+.create-test-cases-btn-create:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .create-test-cases-button-top-right {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .create-test-cases-test-suite-btn,
+  .create-test-cases-btn-cancel {
+    width: 100%;
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+
+  .create-test-cases-input {
+    padding: 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .create-test-cases-wrapper{
+    padding: 15px;
+    max-width: 100%;
+  }
+  .create-test-cases-page-container{
+    margin: auto;
+    padding: 10px;
+    width: 320px;
+  }
+
+  .create-test-cases-title{
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+  .project-name{
+    text-align: center;
+  }
+
+  .create-test-cases-button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .create-test-cases-btn-create,
+  .create-test-cases-btn-manual,
+  .create-test-cases-btn-cancel {
+    width: 100%;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .create-test-cases-container {
+    background: linear-gradient(135deg, #333333, #444444);
+    color: #ffffff;
+  }
+
+  .create-test-cases-input {
+    border-color: #555555;
+    background-color: #222222;
+    color: #ffffff;
+  }
+
+  .create-test-cases-btn-create {
+    background-color: rgb(126, 58, 242);
+  }
+
+  .create-test-cases-btn-cancel {
+    background-color: rgb(126, 58, 242);
+  }
+}
+
+
+.error-message {
+  color: #d9534f;
+}
+
+
+.create-test-cases-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
+.create-test-cases-button-group-right {
+  display: flex;
+  gap: 10px;
+}
+
+.create-btn, 
+.cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.create-btn {
+  background-color: rgb(126, 58, 242);
+  color: white;
+}
+
+.cancel-btn {
+  background-color: transparent;
+  color: rgb(126, 58, 242);
+  border: 2px solid rgb(126, 58, 242);
+}
+
+.create-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cancel-btn:hover {
+  background-color: rgb(126, 58, 242);
+  color: white;
+}
+
+.p-group:hover {
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.modal-desc {
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
